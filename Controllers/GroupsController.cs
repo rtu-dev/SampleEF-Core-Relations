@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +24,14 @@ namespace SampleEF_Core_Relations.Controllers
 
         // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Group>>> GetGroup()
+        public async Task<ActionResult<IEnumerable>> GetGroup()
         {
-            return await _context.Group.Include(i => i.GroupSubs).ToListAsync();
+            //EF Core dont have suport to use include in many to many relations--- need to use select or access by DbSet 
+            //var ads = await _context.Group.Select(x => x.GroupUsers).ToListAsync();
+
+            var ads = await _context.Group.Select(x => x.GroupUsers).ToListAsync();
+
+            return ads;
         }
 
         // GET: api/Groups/5

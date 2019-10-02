@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 namespace SampleEF_Core_Relations.Entity
 {
     public class User
-    {        
+    {
+        public User()
+        {
+            GroupUsers = new List<GroupUser>();
+        }
         public int UserId { get; set; }
         public string Name { get; set; }
 

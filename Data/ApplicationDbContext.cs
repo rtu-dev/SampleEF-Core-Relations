@@ -13,6 +13,10 @@ namespace SampleEF_Core_Relations.Data
             : base(options)
         {
         }
+        public DbSet<Group> Group { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<SubGroup> SubGroup { get; set; }
+        public DbSet<GroupSub> GroupSub { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=localhost;Database=SampleDB;Trusted_Connection=True");
@@ -20,37 +24,38 @@ namespace SampleEF_Core_Relations.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GroupSub>()
-                .HasKey(bc => new { bc.GroupId, bc.SubGroupId });
+            modelBuilder.Entity<GroupSub>().HasKey(sc => new { sc.GroupId, sc.SubGroupId });
+            modelBuilder.Entity<GroupUser>().HasKey(sc => new { sc.GroupId, sc.UserId });
 
-            modelBuilder.Entity<GroupSub>()
-                .HasOne(bc => bc.Group)
-                .WithMany(b => b.GroupSubs)
-                .HasForeignKey(bc => bc.GroupId);
+            //modelBuilder.Entity<GroupSub>()
+            //    .HasKey(bc => new { bc.GroupId, bc.SubGroupId });
 
-            modelBuilder.Entity<GroupSub>()
-                .HasOne(bc => bc.SubGroup)
-                .WithMany(c => c.GroupSubs)
-                .HasForeignKey(bc => bc.SubGroupId);
+            //modelBuilder.Entity<GroupSub>()
+            //    .HasOne(bc => bc.Group)
+            //    .WithMany(b => b.GroupSubs)
+            //    .HasForeignKey(bc => bc.GroupId);
 
-            //-------------------------------------------
+            //modelBuilder.Entity<GroupSub>()
+            //    .HasOne(bc => bc.SubGroup)
+            //    .WithMany(c => c.GroupSubs)
+            //    .HasForeignKey(bc => bc.SubGroupId);
 
-            modelBuilder.Entity<GroupUser>()
-                .HasKey(bc => new { bc.GroupId, bc.UserId });
+            ////-------------------------------------------
 
-            modelBuilder.Entity<GroupUser>()
-                .HasOne(bc => bc.Group)
-                .WithMany(b => b.GroupUsers)
-                .HasForeignKey(bc => bc.GroupId);
+            //modelBuilder.Entity<GroupUser>()
+            //    .HasKey(bc => new { bc.GroupId, bc.UserId });
 
-            modelBuilder.Entity<GroupUser>()
-                .HasOne(bc => bc.User)
-                .WithMany(c => c.GroupUsers)
-                .HasForeignKey(bc => bc.UserId);
+            //modelBuilder.Entity<GroupUser>()
+            //    .HasOne(bc => bc.Group)
+            //    .WithMany(b => b.GroupUsers)
+            //    .HasForeignKey(bc => bc.GroupId);
+
+            //modelBuilder.Entity<GroupUser>()
+            //    .HasOne(bc => bc.User)
+            //    .WithMany(c => c.GroupUsers)
+            //    .HasForeignKey(bc => bc.UserId);
         }
 
-        public DbSet<Group> Group { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<SubGroup> SubGroup { get; set; }
+       
     }
 }

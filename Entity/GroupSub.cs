@@ -7,6 +7,11 @@ namespace SampleEF_Core_Relations.Entity
 {
     public class GroupSub
     {
+        public GroupSub()
+        {
+            Group = new Group();
+            SubGroup = new SubGroup();
+        }
         //public int GroupSubId { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
